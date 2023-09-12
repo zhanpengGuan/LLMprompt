@@ -134,8 +134,7 @@ for num_P in range(len(PATH_list)):
             # 计算精确率（Precision）和召回率（Recall）
             precision = TP / (TP + FP) if (TP+FP) != 0 else 0
             recall = TP / (TP + FN)
-            Accuracy = (TP + TN) / (TP + TN + FP + FN)
-
+            f1 = 2*precision*recall/(precision+recall) if (precision+recall)!=0 else 0
 
             # 打印结果
             print('TP:', TP)
@@ -144,7 +143,7 @@ for num_P in range(len(PATH_list)):
             print('FN:', FN)
             print('Precision:', precision)
             print('Recall:', recall)
-            print('Accuracy:', Accuracy)
+            print('f1:', f1)
             print(len(true_labels))
             # 将结果保存到文件中
             num = 0
@@ -182,7 +181,7 @@ for num_P in range(len(PATH_list)):
                     f.write('FN: {}\n'.format(FN))
                     f.write('Precision: {}\n'.format(precision))
                     f.write('Recall: {}\n'.format(recall))
-                    f.write('Accuracy: {}\n'.format(Accuracy))
+                    f.write('f1: {}\n'.format(f1))
            
             except FileNotFoundError:
 
@@ -198,4 +197,4 @@ for num_P in range(len(PATH_list)):
                     f.write('FN: {}\n'.format(FN))
                     f.write('Precision: {}\n'.format(precision))
                     f.write('Recall: {}\n'.format(recall))
-                    f.write('Accuracy: {}\n'.format(Accuracy))
+                    f.write('f1: {}\n'.format(f1))

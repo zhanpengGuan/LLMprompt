@@ -22,7 +22,7 @@ for num_P in range(len(PATH_list)):
     PATH = PATH_list[num_P]
     result_path = PATH.split('.')[0]
     row_tp = []
-    with open('result/'+result_path+'/'+'5_part_ltm_'+result_path+".csv", 'r') as f:
+    with open('result/'+result_path+'/'+'5_part_ltm2_'+result_path+".csv", 'r') as f:
         json_data = f.read().splitlines()
         order = []
         for i in range(len(json_data)):
@@ -39,10 +39,10 @@ for num_P in range(len(PATH_list)):
             return len(order)
         
         
-        with open("data/test/output-1.csv", 'rb') as f:
+        with open("data/test/output-11.csv", 'rb') as f:
             result = chardet.detect(f.read())
             print(result['encoding'])
-        with codecs.open("data/test/output-1.csv", 'r',encoding = 'gb18030' ) as f:
+        with codecs.open("data/test/output-11.csv", 'r',encoding = 'gb18030' ) as f:
             # 创建CSV读取器
             reader = csv.reader(f)
     
@@ -111,9 +111,9 @@ for num_P in range(len(PATH_list)):
                     predict = i['predict'][0]
                     index1 = predict.find("output1:") if predict.find("output1:")!=-1 else predict.find("Output1:")
                     index2 = predict.find("output2:") if predict.find("output2:")!=-1 else predict.find("Output2:")
-                    if yes( wrong_str1,predict[index1:index2]):        
+                    if yes( wrong_str1,predict[-20:]):        
                         ap = 0
-                    elif yes(right_str1,predict[index1:index2]):        
+                    elif yes(right_str1,predict[-20:]):        
                         ap = 1
                     else:
                         ap = 2                 
@@ -123,7 +123,6 @@ for num_P in range(len(PATH_list)):
 
             # 计算真正例（True Positive，TP）、假正例（False Positive，FP）、真反例（True Negative，TN）、假反例（False Negative，FN）的数量
             TP = sum([1 for i in range(len(true_labels)) if true_labels[i] == 1 and pred_labels[i] == 1])
-
             FP = sum([1 for i in range(len(true_labels)) if true_labels[i] == 0 and pred_labels[i] == 1])
             TN = sum([1 for i in range(len(true_labels)) if true_labels[i] == 0 and pred_labels[i] != 1])
             FN = sum([1 for i in range(len(true_labels)) if true_labels[i] == 1 and pred_labels[i] != 1])
@@ -156,7 +155,7 @@ for num_P in range(len(PATH_list)):
 
 
 
-            with open('result/'+result_path+'/5_part_ltm_'+result_path+'.json','w') as f2:
+            with open('result/'+result_path+'/5_part_ltm2_'+result_path+'.json','w') as f2:
                 for data in x:
                     jsonstr =   json.dumps(data,ensure_ascii=False)
                     f2.write(jsonstr+'\n')
@@ -167,7 +166,7 @@ for num_P in range(len(PATH_list)):
                     way='a'
             try:
       
-                with open('result/'+result_path+'/'+'5_part_ltm_reslut.txt', way) as f:
+                with open('result/'+result_path+'/'+'5_part_ltm2_reslut.txt', way) as f:
                     f.write('relation:{}\n'.format(c))
                     f.write("true_labels:{}\n,true:false={}:{}\n".format(true_labels,true_labels.count(1),true_labels.count(0)))
                     f.write("pred_labels:{}\n,true:false:unclear={}:{}:{}\n".format(pred_labels,pred_labels.count(1),pred_labels.count(0),pred_labels.count(2)))
@@ -183,7 +182,7 @@ for num_P in range(len(PATH_list)):
            
             except FileNotFoundError:
 
-                with open('result/'+result_path+'/'+'5_part_ltm_reslut.txt', 'w') as f:
+                with open('result/'+result_path+'/'+'5_part_ltm2_reslut.txt', 'w') as f:
                     f.write('relation:{}\n'.format(c))
                     f.write("true_labels:{}\n,true:false={}:{}\n".format(true_labels,true_labels.count(1),true_labels.count(0)))
                     f.write("pred_labels:{}\n,true:false:unclear={}:{}:{}\n".format(pred_labels,pred_labels.count(1),pred_labels.count(0),pred_labels.count(2)))
