@@ -4,8 +4,7 @@ import os
 import csv
 import chardet
 
-#记录下来所有没有证据的条件
-filter = []
+
 # 使用前清除result和result_k1的数据，然后更换PATH，更换save_path即可
 def ifin(s_list,s):
         
@@ -82,6 +81,8 @@ for num_P in range(len(PATH_list)):
             # 定义真实标签和预测标签
         true_labels = []
         pred_labels = []
+        #记录下来所有没有证据的条件
+        filter = []
         
 
 
@@ -92,6 +93,8 @@ for num_P in range(len(PATH_list)):
         for c in range(1,4):
             true_labels = []
             pred_labels = []
+            #记录下来所有没有证据的条件
+            filter = []
             
             for i_num,i in enumerate(x):
                 if i['test_label']==c:
@@ -125,6 +128,7 @@ for num_P in range(len(PATH_list)):
                     pred_labels.append(ap)
                     if i['context']['tag2tag']=="":
                         filter.append(i_num)
+            
             # 计算真正例（True Positive，TP）、假正例（False Positive，FP）、真反例（True Negative，TN）、假反例（False Negative，FN）的数量
             TP = sum([1 for i in range(len(true_labels)) if true_labels[i] == 1 and pred_labels[i] == 1])
             FP = sum([1 for i in range(len(true_labels)) if true_labels[i] == 0 and pred_labels[i] == 1])
