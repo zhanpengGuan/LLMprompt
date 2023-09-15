@@ -89,7 +89,7 @@ for num_P in range(len(PATH_list)):
         for i in range(len(json_data)):
             x.append(json.loads(json_data[i]))
 
-        # test_label 三种关系 1 相同 2 A被B包括 3 A包括B
+        new_x = []
         for c in range(1,4):
             true_labels = []
             pred_labels = []
@@ -99,6 +99,8 @@ for num_P in range(len(PATH_list)):
             for i_num,i in enumerate(x):
                 if i['test_label']==c:
                     ap = -1
+                    if i['context']['tag2tag']=="":
+                        continue
                     if i['target'][0]=='是':
                         true_labels.append(1)
                         ap = 1
@@ -126,8 +128,8 @@ for num_P in range(len(PATH_list)):
                                     
                     i['pred_label'] = ap
                     pred_labels.append(ap)
-                    if i['context']['tag2tag']=="":
-                        filter.append(i_num)
+                    new_x.append(i)
+                    
             
             # 计算真正例（True Positive，TP）、假正例（False Positive，FP）、真反例（True Negative，TN）、假反例（False Negative，FN）的数量
             TP = sum([1 for i in range(len(true_labels)) if true_labels[i] == 1 and pred_labels[i] == 1])
@@ -164,7 +166,7 @@ for num_P in range(len(PATH_list)):
 
 
             with open('result/'+result_path+'/5_part_ltm2_'+result_path+'.json','w') as f2:
-                for data in x:
+                for data in new_x:
                     jsonstr =   json.dumps(data,ensure_ascii=False)
                     f2.write(jsonstr+'\n')
           
